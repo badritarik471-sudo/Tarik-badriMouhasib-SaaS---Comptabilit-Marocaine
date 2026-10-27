@@ -1,0 +1,79 @@
+{
+  "entities": {
+    "Company": {
+      "title": "Company",
+      "description": "Moroccan company profile under Moroccan tax and legal jurisdiction",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 128 },
+        "ice": { "type": "string", "maxLength": 32 },
+        "if": { "type": "string", "maxLength": 32 },
+        "rc": { "type": "string", "maxLength": 32 },
+        "patente": { "type": "string", "maxLength": 32 },
+        "legalForm": { "type": "string", "maxLength": 32 },
+        "capital": { "type": "number" },
+        "fiscalYear": { "type": "string", "maxLength": 16 },
+        "ownerId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "ownerId"]
+    },
+    "AccountingEntry": {
+      "title": "AccountingEntry",
+      "description": "Standard Moroccan accounting journal entry with PCM accounts",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "companyId": { "type": "string", "maxLength": 128 },
+        "date": { "type": "string", "maxLength": 16 },
+        "reference": { "type": "string", "maxLength": 64 },
+        "journal": { "type": "string", "maxLength": 32 },
+        "label": { "type": "string", "maxLength": 256 },
+        "vatRate": { "type": "number" },
+        "vatAmount": { "type": "number" },
+        "status": { "type": "string", "maxLength": 32 },
+        "ownerId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "companyId", "date", "reference", "journal", "label", "ownerId"]
+    },
+    "PayrollRecord": {
+      "title": "PayrollRecord",
+      "description": "Moroccan monthly payroll bulletin compliant with CNSS, AMO, and IR legislation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "companyId": { "type": "string", "maxLength": 128 },
+        "employeeName": { "type": "string", "maxLength": 128 },
+        "cin": { "type": "string", "maxLength": 32 },
+        "cnssNumber": { "type": "string", "maxLength": 32 },
+        "period": { "type": "string", "maxLength": 16 },
+        "baseSalary": { "type": "number" },
+        "grossSalary": { "type": "number" },
+        "cnssSalarial": { "type": "number" },
+        "amoSalarial": { "type": "number" },
+        "netSalary": { "type": "number" },
+        "ownerId": { "type": "string", "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "companyId", "employeeName", "period", "baseSalary", "ownerId"]
+    }
+  },
+  "firestore": {
+    "/companies/{companyId}": {
+      "schema": "Company",
+      "description": "Registered Moroccan companies by user"
+    },
+    "/companies/{companyId}/entries/{entryId}": {
+      "schema": "AccountingEntry",
+      "description": "Subcollection of journal entries for a company"
+    },
+    "/companies/{companyId}/payrolls/{payrollId}": {
+      "schema": "PayrollRecord",
+      "description": "Subcollection of payroll calculations for a company"
+    }
+  }
+}

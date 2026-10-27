@@ -1,0 +1,87 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isCompanyOwner(companyId) {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/companies/$(companyId)) &&
+        get(/databases/$(database)/documents/companies/$(companyId)).data.ownerId == request.auth.uid;
+    }
+
+    // Companies Collection
+    match /companies/{companyId} {
+      allow get: if isSignedIn() && existing().ownerId == request.auth.uid;
+      allow list: if isSignedIn() && resource.data.ownerId == request.auth.uid;
+      allow create: if isSignedIn() &&
+        isValidId(companyId) &&
+        incoming().ownerId == request.auth.uid &&
+        incoming().name is string &&
+        incoming().name.size() > 0 &&
+        incoming().name.size() <= 128;
+      allow update: if isSignedIn() &&
+        isValidId(companyId) &&
+        existing().ownerId == request.auth.uid &&
+        incoming().ownerId == existing().ownerId &&
+        incoming().name is string &&
+        incoming().name.size() > 0 &&
+        incoming().name.size() <= 128;
+      allow delete: if isSignedIn() && existing().ownerId == request.auth.uid;
+
+      // Journal Entries subcollection
+      match /entries/{entryId} {
+        allow get: if isCompanyOwner(companyId);
+        allow list: if isCompanyOwner(companyId);
+        allow create: if isCompanyOwner(companyId) &&
+          isValidId(entryId) &&
+          incoming().ownerId == request.auth.uid &&
+          incoming().companyId == companyId &&
+          incoming().label is string &&
+          incoming().label.size() <= 256;
+        allow update: if isCompanyOwner(companyId) &&
+          isValidId(entryId) &&
+          existing().ownerId == request.auth.uid &&
+          incoming().ownerId == existing().ownerId &&
+          incoming().companyId == existing().companyId;
+        allow delete: if isCompanyOwner(companyId) && existing().ownerId == request.auth.uid;
+      }
+
+      // Payrolls subcollection
+      match /payrolls/{payrollId} {
+        allow get: if isCompanyOwner(companyId);
+        allow list: if isCompanyOwner(companyId);
+        allow create: if isCompanyOwner(companyId) &&
+          isValidId(payrollId) &&
+          incoming().ownerId == request.auth.uid &&
+          incoming().companyId == companyId &&
+          incoming().employeeName is string &&
+          incoming().employeeName.size() <= 128;
+        allow update: if isCompanyOwner(companyId) &&
+          isValidId(payrollId) &&
+          existing().ownerId == request.auth.uid &&
+          incoming().ownerId == existing().ownerId &&
+          incoming().companyId == existing().companyId;
+        allow delete: if isCompanyOwner(companyId) && existing().ownerId == request.auth.uid;
+      }
+    }
+  }
+}

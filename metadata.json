@@ -1,0 +1,6 @@
+{
+  "name": "Mouhasib SaaS - Comptabilité Marocaine",
+  "description": "Logiciel SaaS complet de comptabilité marocaine conforme au PCM : saisie intelligente par IA, journal, grand livre, balance, CPC, ESG, bilan, liasse fiscale, ETIC, paie marocaine (CNSS/AMO/IR), intégration Google Workspace et visualisation 3D.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
