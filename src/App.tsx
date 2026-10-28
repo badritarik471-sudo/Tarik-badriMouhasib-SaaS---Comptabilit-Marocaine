@@ -19,6 +19,8 @@ import { VatTab } from './components/VatTab';
 import { FinancingEticTab } from './components/FinancingEticTab';
 import { PayrollTab } from './components/PayrollTab';
 import { BankReconciliationTab } from './components/BankReconciliationTab';
+import { ExcelImportTab } from './components/ExcelImportTab';
+import { BusinessPlanTab } from './components/BusinessPlanTab';
 import { PcmDirectoryTab } from './components/PcmDirectoryTab';
 import { WorkspaceTab } from './components/WorkspaceTab';
 import { AudioBriefingModal } from './components/AudioBriefingModal';
@@ -115,6 +117,14 @@ export default function App() {
     setEntries((prev) => prev.filter((e) => e.id !== id));
   };
 
+  const handleImportEntries = (newEntries: AccountingEntry[], replaceExisting: boolean) => {
+    if (replaceExisting) {
+      setEntries(newEntries);
+    } else {
+      setEntries((prev) => [...prev, ...newEntries]);
+    }
+  };
+
   const handleAddPayroll = (record: PayrollRecord) => {
     setPayrolls((prev) => [...prev, record]);
   };
@@ -146,6 +156,21 @@ export default function App() {
             onNavigateTab={setActiveTab}
             onOpenAudioBriefing={() => setIsAudioOpen(true)}
             onScheduleCalendar={() => setActiveTab('workspace')}
+          />
+        )}
+
+        {activeTab === 'excel-import' && (
+          <ExcelImportTab
+            company={company}
+            onImportEntries={handleImportEntries}
+            onNavigateTab={setActiveTab}
+          />
+        )}
+
+        {activeTab === 'business-plan' && (
+          <BusinessPlanTab
+            company={company}
+            currentCA={metrics.ca}
           />
         )}
 

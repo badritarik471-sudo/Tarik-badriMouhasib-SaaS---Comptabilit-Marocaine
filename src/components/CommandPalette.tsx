@@ -40,6 +40,8 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   if (!isOpen) return null;
 
   const quickActions = [
+    { id: 'excel-import', label: 'Importer un fichier Excel (.xls / .xlsx / .csv)', icon: FileText },
+    { id: 'business-plan', label: 'Business Plan Prévisionnel & Dossier Bancaire (3 ans)', icon: Landmark },
     { id: 'smart-entry', label: 'Saisie intelligente par IA (une phrase)', icon: Sparkles },
     { id: 'journal', label: 'Consulter le Journal Général', icon: FileText },
     { id: 'grand-livre', label: 'Consulter la Balance et Grand Livre', icon: Scale },

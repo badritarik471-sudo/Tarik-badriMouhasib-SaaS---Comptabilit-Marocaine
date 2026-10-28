@@ -66,6 +66,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const navItems = [
     { id: 'dashboard', label: 'Tableau de Bord & 3D' },
+    { id: 'excel-import', label: '📊 Import Excel (.xls)' },
+    { id: 'business-plan', label: '📈 Business Plan 3 ans' },
     { id: 'smart-entry', label: 'Saisie IA & Scan' },
     { id: 'journal', label: 'Journal' },
     { id: 'grand-livre', label: 'Grand Livre & Balance' },

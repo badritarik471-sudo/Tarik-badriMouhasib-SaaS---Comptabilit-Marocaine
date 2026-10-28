@@ -18,7 +18,9 @@ import {
   FileSpreadsheet,
   ArrowRight,
   ShieldAlert,
-  Clock
+  Clock,
+  Briefcase,
+  Upload
 } from 'lucide-react';
 
 interface DashboardTabProps {
@@ -49,6 +51,59 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({
 
   return (
     <div className="space-y-6">
+      {/* Actions Phares : Import Excel Universel & Business Plan 3 Ans */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div
+          onClick={() => onNavigateTab('excel-import')}
+          className="bg-gradient-to-br from-emerald-950/70 to-slate-900 border border-emerald-800/60 hover:border-emerald-500 rounded-2xl p-5 shadow-xl transition cursor-pointer group flex items-start justify-between"
+        >
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="p-2 bg-emerald-900/80 rounded-xl text-emerald-400 group-hover:scale-105 transition">
+                <FileSpreadsheet className="w-5 h-5" />
+              </span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-300 font-mono px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800">
+                Génération Automatique
+              </span>
+            </div>
+            <h3 className="text-base font-bold text-white group-hover:text-emerald-300 transition">
+              Importer un Fichier Excel (.xls / .xlsx)
+            </h3>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              Déposez votre document comptable : le moteur calcule instantanément le <strong>Journal</strong>, <strong>Grand Livre</strong>, <strong>Balance</strong>, <strong>CPC</strong>, <strong>ESG</strong>, <strong>Bilan</strong> et <strong>TVA</strong>.
+            </p>
+          </div>
+          <div className="p-2 bg-slate-800/80 rounded-full text-slate-400 group-hover:text-emerald-400 group-hover:translate-x-1 transition shrink-0 ml-3">
+            <ArrowRight className="w-4 h-4" />
+          </div>
+        </div>
+
+        <div
+          onClick={() => onNavigateTab('business-plan')}
+          className="bg-gradient-to-br from-blue-950/70 to-slate-900 border border-blue-800/60 hover:border-blue-500 rounded-2xl p-5 shadow-xl transition cursor-pointer group flex items-start justify-between"
+        >
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="p-2 bg-blue-900/80 rounded-xl text-blue-400 group-hover:scale-105 transition">
+                <Briefcase className="w-5 h-5" />
+              </span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-blue-300 font-mono px-2 py-0.5 rounded bg-blue-950 border border-blue-800">
+                Prévisions & Banques
+              </span>
+            </div>
+            <h3 className="text-base font-bold text-white group-hover:text-blue-300 transition">
+              Business Plan Prévisionnel 3 Ans
+            </h3>
+            <p className="text-xs text-slate-300 leading-relaxed">
+              CPC 3 ans, Seuil de rentabilité (Point Mort), Plan de financement, BFR et <strong>Audit Stratégique IA (Gemini)</strong> pour vos banques et investisseurs.
+            </p>
+          </div>
+          <div className="p-2 bg-slate-800/80 rounded-full text-slate-400 group-hover:text-blue-400 group-hover:translate-x-1 transition shrink-0 ml-3">
+            <ArrowRight className="w-4 h-4" />
+          </div>
+        </div>
+      </div>
+
       {/* Grille de 4 Cartes KPIs Financiers */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* 1. Chiffre d'affaires */}
